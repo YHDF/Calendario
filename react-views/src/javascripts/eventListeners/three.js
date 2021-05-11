@@ -1,7 +1,6 @@
-import '../style.css'
+import '../../style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
 
 // Debug
 //const gui = new dat.GUI()
@@ -167,7 +166,7 @@ renderer.setClearColor(new THREE.Color("#15181a"), 0.8);
 var angle = 90;
 var rad = 0.5;
 
-const tick = () => {
+export default function tick() {
     camera.position.y = camera.position.y > 1 || camera.position.y < -1 ? camera.position.y = 0 : camera.position.y;
     camera.position.x = rad * Math.cos(angle);
     camera.position.z = rad * Math.sin(angle);
@@ -184,4 +183,3 @@ const tick = () => {
     window.requestAnimationFrame(tick)
 }
 
-tick()
