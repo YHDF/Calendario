@@ -22,6 +22,11 @@
     src: url('../static/Montserrat/Montserrat-ExtraLight.ttf');
 }
 
+@font-face {
+    font-family: monserrat-medium;
+    src: url('../static/Montserrat/Montserrat-Medium.ttf');
+}
+
 html,
 body {
     height: 100vh;
@@ -51,7 +56,6 @@ body {
     font-size: 1.8vw;
     display: block;
     text-align: center;
-    
 }
 
 .separator {
@@ -114,12 +118,10 @@ body {
     font-size: 1.2vw;
     text-decoration: underline;
     overflow: hidden;
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
     float: left;
 }
-
-
 
 .Navbar a {
     color: white;
@@ -177,19 +179,18 @@ body {
     width: 50px;
     border: 1px solid white;
     border-radius: 50%;
-
-
 }
-.scroller svg{
+
+.scroller svg {
     margin: 11px;
 }
 
-.scroller:hover{
+.scroller:hover {
     border: 1px solid black;
-    cursor: pointer;   
+    cursor: pointer;
 }
 
-.scroller:hover svg{
+.scroller:hover svg {
     fill: black;
 }
 
@@ -206,8 +207,7 @@ body {
     padding: 25px;
 }
 
-
-.list{
+.list {
     position: absolute;
     top: 5%;
     left: -30%;
@@ -218,9 +218,9 @@ body {
     width: 20%;
     z-index: 1;
     padding: 25px;
-   
 }
-.list a{
+
+.list a {
     margin-left: 25px;
 }
 
@@ -229,3 +229,115 @@ body {
     visibility: visible;
 }
 
+.auth_menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 100%;
+    background-color: white;
+    font-family: monserrat-medium;
+    color: black;
+    font-size: 1.2vw;
+}
+
+.auth_menu .auth_title {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    height: 10%;
+    font-family: monserrat-medium;
+    color: black;
+    font-size: 2.8vw;
+    text-align: center;
+}
+
+.auth-component {
+    position: absolute;
+    top: 0%;
+    left: 20%;
+    width: 80%;
+    height: 70%;
+    margin-top: 50%;
+}
+
+.auth-component>form {
+    height: 100%;
+    width: 100%;
+}
+
+.auth_input {
+    margin-top: 10%;
+    width: 100%;
+    height: 15%;
+    animation-duration: 1s;
+}
+
+.auth_input input {
+    position: absolute;
+    width: 80%;
+    height: 10%;
+    border-radius: 10px;
+    outline: none;
+    margin: 0;
+    z-index: 2;
+    background-color: transparent;
+    font-family: monserrat-medium;
+    color: black;
+    font-size: 1.4vw;
+}
+
+.auth_input input:focus {
+    overflow: hidden;
+}
+
+label {
+    position: absolute;
+    width: 80%;
+    height: 10%;
+    border-radius: 10px;
+    outline: none;
+    margin: 5%;
+    z-index: 1;
+    font-size: 1vw;
+}
+
+.auth-component a {
+    margin-top: 20%;
+    margin-left: 50%;
+    font-family: monserrat-medium;
+    color: black;
+    font-size: 0.9vw;
+}
+
+.submit {
+    margin-top: 15%;
+    margin-left: 20%;
+    width: 40%;
+    height: 10%;
+    background-color: black;
+    border-radius: 10px;
+    font-family: monserrat-medium;
+    color: white;
+    font-size: 1vw;
+    border: none;
+}
+
+.submit:hover {
+    cursor: pointer;
+}
+
+.back{
+    width : 90%; 
+    height : 5%; 
+    margin : 4%; 
+}
+
+.back div{
+    margin: 0;
+    height: 100%;
+    display: inline-block;
+    font-family: monserrat-medium;
+    color: black;
+    font-size: 1.8vw;
+}

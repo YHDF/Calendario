@@ -3,7 +3,7 @@ let router = express.Router();
 
 
 router.get('/connect', (req, res, next) => {
-    res.render('auth/connect');
+    res.redirect('http://localhost:8080/connect')
 })
 
 

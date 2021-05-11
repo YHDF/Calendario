@@ -1,5 +1,3 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-
-
-
+particlesJS.load('particles-js', '../assets/particles.json', function() {
+    console.log('callback - particles-js config loaded');
+  });

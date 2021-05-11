@@ -1,4 +1,4 @@
-import './style.css'
+import '../style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
@@ -66,7 +66,8 @@ let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oc
 //const sphere = new THREE.Mesh(geometry,material)
 //scene.add(sphere)
 let squares = [];
-let max = 1, min = -1;
+let max = 1,
+    min = -1;
 for (let i = 0; i < 1000; i++) {
     const square = new THREE.Mesh(geometry, material)
     square.position.x = Math.random(Math.random() * (max - min) + min) * (max - min) + min;
@@ -147,7 +148,7 @@ scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+    // controls.enableDamping = true
 
 /**
  * Renderer
@@ -157,7 +158,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-renderer.setClearColor(new THREE.Color("#21282a"), 0.8);
+renderer.setClearColor(new THREE.Color("#15181a"), 0.8);
 
 
 /**
