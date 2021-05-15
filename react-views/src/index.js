@@ -2,31 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import tick from './javascripts/eventListeners/three'
-import Navbar from './javascripts/components/Navbar'
-import App from './javascripts/pages/Home'
-import Connect from './javascripts/pages/Connect'
+import App from '../src/App'
 
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
 tick();
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-    <Navbar />
-    <Switch>
-      <Route path="/auth/connect">
-        <Connect />
-      </Route>
-      <Route path="/">
-        <App />
-      </Route>
-    </Switch>
-    </Router>
-    
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

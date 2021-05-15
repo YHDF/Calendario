@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../../style.css';
 
-function App() {
+function Home() {
   const link = "";
   window.scroll({
     top: 0,
@@ -70,4 +70,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

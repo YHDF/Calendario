@@ -230,6 +230,10 @@ body {
     margin-left: 25px;
 }
 
+.list a:hover {
+    color: black;    
+}
+
 .menu-active {
     left: 3%;
     visibility: visible;
