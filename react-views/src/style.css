@@ -121,6 +121,7 @@ body {
     padding: 0;
     margin: 0;
     float: left;
+    z-index: 2;
 }
 
 .Navbar a {
@@ -150,55 +151,11 @@ body {
 }
 
 
-#infomenu {
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-}
-
-#infomenu .infosection {
-    position: absolute;
-    margin-top: 35%;
-    height: 30%;
-    width: 100%;
-}
-
-.infosection div {
-    width: 60%;
-    margin: 0 auto;
-    margin-top: 2%;
-    font-family: monserrat;
-    color: white;
-    font-size: 1.2vw;
-    text-align: center;
-}
 
 .mainheader svg:hover {
     fill: black;
 }
 
-.infosection .scroller {
-    margin-left: 95%;
-    height: 50px;
-    width: 50px;
-    border: 1px solid white;
-    border-radius: 50%;
-}
-
-.scroller svg {
-    margin: 11px;
-}
-
-.scroller:hover {
-    border: 1px solid black;
-    cursor: pointer;
-}
-
-.scroller:hover svg {
-    fill: black;
-}
 
 .menu:hover {
     cursor: pointer;
@@ -241,7 +198,7 @@ body {
 
 .auth_menu {
     position: absolute;
-    top: 0;
+    top: 0%;
     left: 0;
     width: 30%;
     height: 100%;
@@ -249,6 +206,7 @@ body {
     font-family: monserrat-medium;
     color: black;
     font-size: 1.2vw;
+    z-index: 3;
 }
 
 .auth_menu .auth_title {
@@ -283,6 +241,7 @@ body {
     animation-duration: 1s;
 }
 
+
 .auth_input input {
     position: absolute;
     width: 80%;
@@ -300,6 +259,14 @@ body {
 .auth_input input:focus {
     overflow: hidden;
 }
+
+.error-message {
+    color: #cc0033;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 5px;
+  }
 
 label {
     position: absolute;

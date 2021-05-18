@@ -6,6 +6,7 @@ import App from '../src/App'
 
 
 tick();
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

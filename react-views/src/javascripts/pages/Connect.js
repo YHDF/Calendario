@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../style.css';
 import axios from 'axios';
-import { Redirect,Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 
 
@@ -11,24 +11,21 @@ class Connect extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = { isToggleOn: true };
         this.input1 = this.input1.bind(this);
         this.input2 = this.input2.bind(this);
         this.state = initialState;
-        this.state = { user: { email: '', password: '' }, redirect: null }
+        this.state = { user: { email: '', password: '' }, redirect: null, isfound: '', isCorrect: '' }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
 
     }
 
     reset() {
         this.setState(initialState);
     }
-
-    componentDidMount() {
-
-    }
-
 
     handleSubmit(e) {
         e.preventDefault()
@@ -48,9 +45,15 @@ class Connect extends React.Component {
             headers: headers
         })
             .then((response) => {
-                if (response.data) {
-                    console.log(response.data)
-                    this.setState({ redirect: "/" });
+
+                if (response.data.user) {
+                    this.setState({ isfound: response.data.user })
+                } else if (response.data.hash) {
+
+                    this.setState({ redirect: "/admin/companieslist" });
+                } else {
+                    console.log("hey")
+                    this.setState({ isCorrect: 'Password is wrong' });
                 }
             })
             .catch(function (error) {
@@ -80,7 +83,10 @@ class Connect extends React.Component {
 
     input1(e) {
         this.setState(() => {
-            document.querySelector('.label2').innerHTML = "Mot de Passe";
+            if (document.querySelector('.label2').nodeValue === '') {
+                document.querySelector('.label2').innerHTML = "Mot de Passe";
+
+            }
             document.querySelector('.label1').innerHTML = "";
         })
 
@@ -88,7 +94,10 @@ class Connect extends React.Component {
 
     input2(e) {
         this.setState(() => {
-            document.querySelector('.label1').innerHTML = "Email";
+            if (document.querySelector('.label1').innerHTML === '') {
+                document.querySelector('.label1').innerHTML = "Email";
+
+            }
             document.querySelector('.label2').innerHTML = "";
         })
 
@@ -99,6 +108,7 @@ class Connect extends React.Component {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
+
         return (
             <div>
                 <div className="auth_menu">
@@ -126,17 +136,23 @@ class Connect extends React.Component {
                                 <label className="label1" htmlFor="email">Email</label>
                                 <input onClick={this.input1} value={this.state.user.email} onChange={this.handleChange} className="input1" name="email" type="email" />
                             </div>
+                            <div className="error-message">{this.state.isfound}</div>
                             <div className="auth_input">
                                 <label className="label2" htmlFor="password">Mot de Passe</label>
                                 <input onClick={this.input2} value={this.state.user.password} onChange={this.handleChange} className="input2" name="password" type="password" />
                             </div>
-                            <Link to="">Mot de passe oublié ?</Link>
+                            <div className="error-message">{this.state.isCorrect}</div>
+                            <div>
+                                <Link to="">Mot de passe oublié ?</Link>
+                            </div>
+
                             <input className="submit" type="submit" value="submit" />
                         </form>
                     </div>
                 </div>
             </div>
         );
+
 
     }
 }

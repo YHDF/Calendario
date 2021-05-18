@@ -1,29 +1,37 @@
 const Sequelize = require('../public/javascripts/db-connect').Sequelize;
 const sequelize = require('../public/javascripts/db-connect').sequelize;
 async function init() {
-    Admins = sequelize.define('Admins', {
+    Company = sequelize.define('Companies', {
         // Model attributes are defined here
-        idAdmins : {
+        idCompany : {
             primaryKey : true,
             type : Sequelize.BIGINT(20),
             allowNull : false,
             autoIncrement : true,
         },
-        email: {
+        companyName: {
             type: Sequelize.STRING
             // allowNull defaults to true
         },
-        password: {
+        companyLogo: {
+            type: Sequelize.STRING
+            // allowNull defaults to true
+        },
+        countryCode: {
+            type: Sequelize.STRING
+            // allowNull defaults to true
+        },
+        RegistredDefaultAddress: {
             type: Sequelize.STRING
             // allowNull defaults to true
         },
     }, {
         timestamps : false,
-        tableName: 'Admins'
+        tableName: 'Companies'
         // Other model options go here
     });
-    await Admins.sync();
-    return Admins;
+    await Company.sync();
+    return Company;
 }
 
 module.exports.init = init;

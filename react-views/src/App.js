@@ -9,10 +9,9 @@ import {
 import Navbar from './javascripts/components/Navbar'
 import Home from './javascripts/pages/Home'
 import Connect from './javascripts/pages/Connect'
+import CompaniesList from './javascripts/pages/companiesList'
 
 class App extends React.Component {
-
-
 
     componentDidMount() {
 
@@ -21,13 +20,15 @@ class App extends React.Component {
 
 
     render() {
-        console.log(this.state)
         return (
             <Router>
                 <Navbar />
                 <Switch>
                     <Route path="/auth/connect">
                         <Connect />
+                    </Route>
+                    <Route path="/admin/companieslist">
+                        <CompaniesList />
                     </Route>
                     <Route path="/">
                         <Home />
