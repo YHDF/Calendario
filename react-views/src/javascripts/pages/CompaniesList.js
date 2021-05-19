@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-
+import {
+    Link
+} from 'react-router-dom'
 import '@splidejs/splide/dist/css/themes/splide-sea-green.min.css';
 import '../../css/companiesList.css';
 
@@ -29,7 +31,7 @@ class CompaniesList extends React.Component {
 
         let slideInformations = this.state.companyInformations.map((item, index) => {
             return (
-                <SplideSlide key={item.companyId}>
+                <SplideSlide key={item.idCompany}>
                     <div className='slide'>
                         <div className='title_holder'>
                             <div className="slide_title">Calendar.Io</div>
@@ -39,7 +41,15 @@ class CompaniesList extends React.Component {
                         <div className='cmp_name'>{item.companyName}</div>
                         <div className='cmp_cntry'>{item.companyCountry}</div>
                         <div className='description'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A expedita repellat consequuntur voluptas quam sit magni placeat culpa. Earum laudantium fugit iure modi totam laborum beatae sed magni pariatur ullam!</div>
+                        <div className='calendar_link'>
+                            <Link to={{
+                                pathname : '/calendar',
+                                state : {CompanyId : item.idCompany}
+                            }} >Visit Company Event Calendar</Link>
+                            
+                        </div>
                     </div>
+
                 </SplideSlide>
             )
         })
@@ -49,7 +59,7 @@ class CompaniesList extends React.Component {
                 <div className="splide_holder">
                     <Splide className="colors"
                         options={{
-                            type : 'loop',
+                            type: 'loop',
                             height: 600,
                             gap: '2rem'
                         }}

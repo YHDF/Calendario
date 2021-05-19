@@ -9,7 +9,8 @@ import {
 import Navbar from './javascripts/components/Navbar'
 import Home from './javascripts/pages/Home'
 import Connect from './javascripts/pages/Connect'
-import CompaniesList from './javascripts/pages/companiesList'
+import CompaniesList from './javascripts/pages/CompaniesList'
+import Calendar from './javascripts/pages/Calendar'
 
 class App extends React.Component {
 
@@ -22,17 +23,22 @@ class App extends React.Component {
     render() {
         return (
             <Router>
-                <Navbar />
+
                 <Switch>
+                    <Route path="/calendar" render={(props) => <Calendar {...props}/>}/>
                     <Route path="/auth/connect">
+                        <Navbar />
                         <Connect />
                     </Route>
                     <Route path="/admin/companieslist">
+                        <Navbar />
                         <CompaniesList />
                     </Route>
                     <Route path="/">
+                        <Navbar />
                         <Home />
                     </Route>
+
                 </Switch>
             </Router>
         );
