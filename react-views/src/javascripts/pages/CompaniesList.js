@@ -39,12 +39,12 @@ class CompaniesList extends React.Component {
                         </div>
                         <img src={item.companyLogo} alt="" />
                         <div className='cmp_name'>{item.companyName}</div>
-                        <div className='cmp_cntry'>{item.companyCountry}</div>
+                        <div className='cmp_cntry'>{item.countryCode}</div>
                         <div className='description'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A expedita repellat consequuntur voluptas quam sit magni placeat culpa. Earum laudantium fugit iure modi totam laborum beatae sed magni pariatur ullam!</div>
                         <div className='calendar_link'>
                             <Link to={{
                                 pathname : '/calendar',
-                                state : {CompanyId : item.idCompany}
+                                state : {CompanyInfo : item}
                             }} >Visit Company Event Calendar</Link>
                             
                         </div>

@@ -28,37 +28,51 @@ class Connect extends React.Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault()
-        const headers = {
-            'Access-Control-Allow-Origin': '*'
-        };
+        e.preventDefault();
+        if (this.state.user.email === '') {
+            this.setState({
+                isfound: 'Email Required'
+            })
 
-        const user = {
-            email: this.state.user.email,
-            password: this.state.user.password
+        }
+        if (this.state.user.password === '') {
+            this.setState({
+                isCorrect: 'Password Required'
+            })
+
+        } else {
+            const headers = {
+                'Access-Control-Allow-Origin': '*'
+            };
+
+            const user = {
+                email: this.state.user.email,
+                password: this.state.user.password
+            }
+
+            axios({
+                method: 'post',
+                url: 'http://localhost:5000/admin/connect',
+                data: user,
+                headers: headers
+            })
+                .then((response) => {
+
+                    if (response.data.user) {
+                        this.setState({ isfound: response.data.user })
+                    } else if (response.data.hash) {
+
+                        this.setState({ redirect: "/admin/companieslist" });
+                    } else {
+                        this.setState({ isCorrect: 'Password is wrong' });
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
 
-        axios({
-            method: 'post',
-            url: 'http://localhost:5000/auth/connect',
-            data: user,
-            headers: headers
-        })
-            .then((response) => {
 
-                if (response.data.user) {
-                    this.setState({ isfound: response.data.user })
-                } else if (response.data.hash) {
-
-                    this.setState({ redirect: "/admin/companieslist" });
-                } else {
-                    console.log("hey")
-                    this.setState({ isCorrect: 'Password is wrong' });
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
 
     }
 
@@ -82,29 +96,33 @@ class Connect extends React.Component {
     }
 
     input1(e) {
-        this.setState(() => {
-            if (document.querySelector('.label2').nodeValue === '') {
-                document.querySelector('.label2').innerHTML = "Mot de Passe";
+        console.log(this.state.user.password);
+        if (document.querySelector('.label2').nodeValue === null && this.state.user.password === '') {
+            document.querySelector('.label2').innerHTML = "Mot de Passe";
+        }
 
-            }
-            document.querySelector('.label1').innerHTML = "";
+        document.querySelector('.label1').innerHTML = "";
+        this.setState({
+            isfound: '',
+            isCorrect: ''
         })
-
     }
 
     input2(e) {
-        this.setState(() => {
-            if (document.querySelector('.label1').innerHTML === '') {
-                document.querySelector('.label1').innerHTML = "Email";
-
-            }
-            document.querySelector('.label2').innerHTML = "";
+        if (document.querySelector('.label1').nodeValue === null && this.state.user.email === '') {
+            document.querySelector('.label1').innerHTML = "Email";
+        }
+        document.querySelector('.label2').innerHTML = "";
+        this.setState({
+            isfound: '',
+            isCorrect: ''
         })
 
     }
 
 
     render() {
+
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }

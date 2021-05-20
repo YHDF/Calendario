@@ -14,20 +14,20 @@
   width: 100%;
   height: 100%;
   font-family: monserrat;
-  background-color: rgb(245, 245, 245);
+  background-color: #f8f9fa;
   color: black;
 }
-.calendar{
+.calendar {
   position: absolute;
   left: 25%;
   top: 0;
   width: 75%;
   height: 100%;
 }
-button{
-    border : none
+button {
+  border: none;
 }
-.fc{
+.fc {
   width: 80%;
   height: 99%;
   margin: 10px;
@@ -37,12 +37,15 @@ button{
   background-color: white; /* Green */
   border: none;
   color: black;
-  outline: none;
 }
 
 .fc .fc-button-primary:hover {
-  background-color: #b5b5b5; /* Green */
+  background-color: #343a40; /* Green */
   color: black;
+}
+
+.fc .fc-button:focus {
+  outline-color: black;
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active {
@@ -51,21 +54,111 @@ button{
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active:hover {
-  background-color: #b5b5b5; /* Green */
+  background-color: #343a40; /* Green */
   color: black;
 }
 
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  border-color: black;
+}
 
-.fc .fc-button-primary:disabled{
-    background-color: #ededed;
-    color: black;
+.fc .fc-button-primary:disabled {
+  background-color: #ededed;
+  color: black;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: transparent;
+  background-repeat: no-repeat;
+}
+.fc .fc-timegrid-col.fc-day-today {
+  background-color: #e4e4e4;
+}
+.fc-h-event {
+  height: auto;
+  background-color: transparent;
+  background-image: url('../images/calendar-check.svg');
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 1.2em;
+  border: 0;
+  margin: 5px;
 }
 
 
+.fc-h-event .fc-event-main {
+  text-align: center;
+  color: black;
+}
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  margin: 3px;
+  border-radius: 100%;
+  background-color: #ced4da;
+  color: black;
+}
 
-.sidebar{
-  margin: 0;
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 25%;
   height: 100%;
   background-color: white;
+  font-size: 0.8vw;
+}
+
+.back {
+  width: 90%;
+  height: 5%;
+  margin: 4%;
+}
+
+.back div {
+  margin: 0;
+  height: 100%;
+  display: inline-block;
+  font-family: monserrat-medium;
+  color: black;
+  font-size: 1.8vw;
+}
+
+.sidebar img {
+  width: 25%;
+  height: 75px;
+  width: 75px;
+  border: 1px solid white;
+  border-radius: 100%;
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+  
+
+  
+}
+.sidebar .cmp_name{
+  font-size: 1.8vw;
+  color: black;
+}
+
+.sidebar *:not(.back, .back > div) {
+  color: black;
+  margin-top: 5%;
+}
+
+.sidebar .description{
+  font-size: 0.9vw;
+}
+
+.sidebar .separator {
+  height: 0.5px;
+  width: 75%;
+  margin: auto;
+  background-color: black;
+}
+
+.event_list{
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
