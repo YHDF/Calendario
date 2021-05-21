@@ -7,6 +7,8 @@ import React from 'react'
 const link = "";
 
 class Home extends React.Component {
+  componentDidMount(){
+  }
   render() {
 
     return (

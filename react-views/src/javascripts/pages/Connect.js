@@ -5,6 +5,7 @@ import { Redirect, Link } from "react-router-dom";
 
 
 
+
 const initialState = {
 };
 class Connect extends React.Component {
@@ -16,11 +17,14 @@ class Connect extends React.Component {
         this.input1 = this.input1.bind(this);
         this.input2 = this.input2.bind(this);
         this.state = initialState;
-        this.state = { user: { email: '', password: '' }, redirect: null, isfound: '', isCorrect: '' }
+        this.state = { user: { email: '', password: '' }, redirect: null, isfound: '', isCorrect: ''}
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-
+    }
+    componentDidMount(){
+        if(this.props.authenticated){
+            this.setState({ redirect: "/admin/companieslist" });
+        }
     }
 
     reset() {
@@ -49,7 +53,6 @@ class Connect extends React.Component {
                 email: this.state.user.email,
                 password: this.state.user.password
             }
-
             axios({
                 method: 'post',
                 url: 'http://localhost:5000/admin/connect',
@@ -57,18 +60,18 @@ class Connect extends React.Component {
                 headers: headers
             })
                 .then((response) => {
-
+                    this.props.setSessionId(response.data.session_id)
                     if (response.data.user) {
                         this.setState({ isfound: response.data.user })
                     } else if (response.data.hash) {
-
-                        this.setState({ redirect: "/admin/companieslist" });
+                        this.props.getAuthSatus();
+                        this.setState({ redirect: "/admin/companieslist"});
                     } else {
                         this.setState({ isCorrect: 'Password is wrong' });
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.error(error);
                 });
         }
 
@@ -96,7 +99,6 @@ class Connect extends React.Component {
     }
 
     input1(e) {
-        console.log(this.state.user.password);
         if (document.querySelector('.label2').nodeValue === null && this.state.user.password === '') {
             document.querySelector('.label2').innerHTML = "Mot de Passe";
         }

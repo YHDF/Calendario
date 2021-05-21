@@ -2,32 +2,46 @@ import React from 'react';
 import axios from 'axios';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import {
-    Link
+    Link,
+    Redirect
 } from 'react-router-dom'
 import '@splidejs/splide/dist/css/themes/splide-sea-green.min.css';
 import '../../css/companiesList.css';
+
+
 
 
 class CompaniesList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { companyInformations: [] }
+        this.state = { companyInformations: [], redirect: null }
     }
     componentDidMount() {
-        const headers = {
-            'Access-Control-Allow-Origin': '*'
-        };
-        axios.get('http://localhost:5000/admin/companyinfo', {
-            headers: headers
-        })
-            .then((response) => {
-                const companyInfos = response.data.companies;
-                this.setState({ companyInformations: companyInfos });
+        this.props.getAuthSatus();
+        
+        if (!this.props.authenticated) {
+            this.setState({ redirect: "/auth/Connect" });
+        } else {
+            const headers = {
+                'Access-Control-Allow-Origin': '*'
+            };
+            axios.get('http://localhost:5000/admin/companyinfo', {
+                headers: headers
             })
-            .catch((error) => console.error(error))
+                .then((response) => {
+                    const companyInfos = response.data.companies;
+                    this.setState({ companyInformations: companyInfos });
+                })
+                .catch((error) => console.error(error))
+        }
+
     }
+
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
 
         let slideInformations = this.state.companyInformations.map((item, index) => {
             return (
@@ -43,10 +57,10 @@ class CompaniesList extends React.Component {
                         <div className='description'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A expedita repellat consequuntur voluptas quam sit magni placeat culpa. Earum laudantium fugit iure modi totam laborum beatae sed magni pariatur ullam!</div>
                         <div className='calendar_link'>
                             <Link to={{
-                                pathname : '/calendar',
-                                state : {CompanyInfo : item}
+                                pathname: '/calendar',
+                                state: { CompanyInfo: item }
                             }} >Visit Company Event Calendar</Link>
-                            
+
                         </div>
                     </div>
 
@@ -60,7 +74,7 @@ class CompaniesList extends React.Component {
                     <Splide className="colors"
                         options={{
                             type: 'loop',
-                            height: 600,
+                            height: 700,
                             gap: '2rem'
                         }}
                     >

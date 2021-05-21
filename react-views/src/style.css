@@ -42,6 +42,14 @@ body {
     outline: none;
 }
 
+.holder{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
 .title {
     font-family: monserrat;
     color: white;

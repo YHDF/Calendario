@@ -9,8 +9,7 @@ async function compareHash(req, res, next, db_hash){
 }
 
 async function hash(req, res, next, db_hash){
-    var hash = await encrypt();
-    
+    var hash = await encrypt();  
     return hash;
 }
 
