@@ -92,10 +92,8 @@ router.get('/companyinfo', async (req, res, next) => {
 });
 
 
-router.get('/calendarInfo', async (req, res, next) => {
-
+router.get('/calendarinfo', async (req, res, next) => {
     let companyId = req.query.idCompany;
-
     let calendar = await Calendar.init();
     let calendars = await calendar.findAll({
         where: {
@@ -104,12 +102,25 @@ router.get('/calendarInfo', async (req, res, next) => {
     })
     let events = [];
     calendars.forEach(element => {
-        let event = { title: element.dataValues.EventName, date: element.dataValues.EventDate }
+        let event = { id : element.dataValues.idCalendars ,  title: element.dataValues.EventName, date: element.dataValues.EventDate }
         events.push(event);
     });
     res.send(events)
 
 });
 
+
+router.delete('/deleteevent', async (req, res, next) => {
+    let idCompany = req.query.idCompany;
+    let calendar = await Calendar.init();
+    await calendar.destroy({
+        where: {
+            idCalendars: idCompany
+        }
+    });
+
+
+
+});
 
 module.exports = router

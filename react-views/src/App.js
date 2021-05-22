@@ -12,11 +12,13 @@ import Connect from './javascripts/pages/Connect'
 import CompaniesList from './javascripts/pages/CompaniesList'
 import Calendar from './javascripts/pages/Calendar'
 
+
+
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { authenticated: false };
+        this.state = { authenticated: document.cookie.length !== 0 };
         this.getAuthSatus = this.getAuthSatus.bind(this);
         this.setSessionId = this.setSessionId.bind(this);
         this.getSessionId = this.getSessionId.bind(this);
@@ -32,7 +34,8 @@ class App extends React.Component {
     }
 
     getAuthSatus() {
-        this.setState({ authenticated: document.cookie !== '' })
+        this.setState({ authenticated: document.cookie.length !== 0 })
+
     }
 
 

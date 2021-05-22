@@ -5,13 +5,14 @@ import tick from './javascripts/eventListeners/three'
 import App from '../src/App'
 
 
-let deletecookie = () => {
+/*let deletecookie = () => {
+  console.log('Deleting')
   document.cookie = 'session_id' +
     '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
 }
-
+deletecookie();*/
 tick();
-deletecookie();
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

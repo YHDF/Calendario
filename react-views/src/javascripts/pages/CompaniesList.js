@@ -19,8 +19,8 @@ class CompaniesList extends React.Component {
     }
     componentDidMount() {
         this.props.getAuthSatus();
-        
         if (!this.props.authenticated) {
+            console.log('this.props.authenticated')
             this.setState({ redirect: "/auth/Connect" });
         } else {
             const headers = {

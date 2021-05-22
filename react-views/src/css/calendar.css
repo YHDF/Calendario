@@ -7,6 +7,7 @@
   font-family: monserrat-medium;
   src: url("../static/Montserrat/Montserrat-Medium.ttf");
 }
+
 .calendar_holder {
   position: absolute;
   top: 0;
@@ -17,6 +18,11 @@
   background-color: #f8f9fa;
   color: black;
 }
+
+.calendar_holder a {
+  color: black;
+}
+
 .calendar {
   position: absolute;
   left: 25%;
@@ -41,7 +47,7 @@ button {
 
 .fc .fc-button-primary:hover {
   background-color: #343a40; /* Green */
-  color: black;
+  color: white;
 }
 
 .fc .fc-button:focus {
@@ -55,7 +61,7 @@ button {
 
 .fc .fc-button-primary:not(:disabled).fc-button-active:hover {
   background-color: #343a40; /* Green */
-  color: black;
+  color: white;
 }
 
 .fc .fc-button-primary:not(:disabled):active,
@@ -78,14 +84,13 @@ button {
 .fc-h-event {
   height: auto;
   background-color: transparent;
-  background-image: url('../images/calendar-check.svg');
+  background-image: url("../images/calendar-check.svg");
   background-repeat: no-repeat;
   background-position: left;
   background-size: 1.2em;
   border: 0;
   margin: 5px;
 }
-
 
 .fc-h-event .fc-event-main {
   text-align: center;
@@ -120,7 +125,7 @@ button {
   display: inline-block;
   font-family: monserrat-medium;
   color: black;
-  font-size: 1.8vw;
+  font-size: 1.5vw;
 }
 
 .sidebar img {
@@ -132,21 +137,18 @@ button {
   display: block;
   margin: auto;
   margin-top: 50px;
-  
-
-  
 }
-.sidebar .cmp_name{
-  font-size: 1.8vw;
+.sidebar .cmp_name {
+  font-size: 1.5vw;
   color: black;
 }
 
 .sidebar *:not(.back, .back > div) {
   color: black;
-  margin-top: 5%;
+  margin-top: 3%;
 }
 
-.sidebar .description{
+.sidebar .description {
   font-size: 0.9vw;
 }
 
@@ -157,8 +159,37 @@ button {
   background-color: black;
 }
 
-.event_list{
+.event_list {
   width: 100%;
   height: 100%;
   text-align: center;
+}
+
+.alert_holder {
+  position: absolute;
+  background-color: black;
+  opacity: 0.8;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.alert {
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  width: 50%;
+  z-index: 2;
+  opacity: 1;
+  background-color: white;
+  color: black;
+}
+
+.alert * {
+  color: black;
+  border-color: black;
+}
+
+.alert button{
+  margin-left: 10px;
 }

@@ -7,10 +7,14 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 import '../../css/calendar.css';
-import '../../css/companiesList.css'
+import '../../css/companiesList.css';
+
+import AlertBox from '../components/AlertBox';
 
 let tel = []
 export default class CompanyCalendar extends React.Component {
@@ -21,15 +25,19 @@ export default class CompanyCalendar extends React.Component {
         this.state = {
             weekendsVisible: true,
             calendarEvents: [],
-            redirect: null
+            redirect: null,
+            alert_visibility: false,
+            event_id : null
         }
+        this.changeVisibility = this.changeVisibility.bind(this)
     }
 
-    componentDidMount(props) {
+    componentDidMount() {
         this.props.getAuthSatus();
-        console.log('this.props.location.state');
-        if (!this.props.authenticated || this.props.location.state === undefined) {
+        if (!this.props.authenticated) {
             this.setState({ redirect: "/auth/Connect" });
+        } else if (this.props.location.state === undefined) {
+            this.setState({ redirect: "/admin/companieslist" });
         } else {
             let idCompany = this.props.location.state.CompanyInfo.idCompany;
             const headers = {
@@ -59,6 +67,16 @@ export default class CompanyCalendar extends React.Component {
                     this.setState({ calendarEvents: calendarEvents });
                 })
         }
+    }
+
+    changeVisibility(){
+        this.setState({alert_visibility : false});
+        this.componentDidMount();
+    }
+
+    handleEventClick = (clickInfo) => {
+        console.log(clickInfo.event.id)
+        this.setState({alert_visibility : true, event_id : clickInfo.event.id})
     }
 
     render() {
@@ -98,7 +116,7 @@ export default class CompanyCalendar extends React.Component {
                         <div className='description'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A expedita repellat consequuntur voluptas quam sit magni placeat culpa. Earum laudantium fugit iure modi totam laborum beatae sed magni pariatur ullam!</div>
                         <div className='separator'></div>
                         <div className='event_list'>
-                            <h1>Today's Event List</h1>
+                            <h2>Today's Event List</h2>
                             <ul>
                                 {todayevent}
                             </ul>
@@ -121,9 +139,13 @@ export default class CompanyCalendar extends React.Component {
                             dayMaxEvents={true}
                             weekends={this.state.weekendsVisible}
                             eventContent={renderEventContent} // custom render function
+                            eventClick={this.handleEventClick}
                         />
                     </div>
-
+                    {
+                        this.state.alert_visibility ? 
+                        <AlertBox changeVisibility={this.changeVisibility} eventId={this.state.event_id} /> : <div></div>
+                    }
                 </div>
             )
         }

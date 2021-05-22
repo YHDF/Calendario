@@ -99,7 +99,7 @@ for (let i = 0; i < 3000; i++) {
     //console.log(label.position.x )
     //console.log(square.position.x )
     //}
-    const labelBaseScale = 0.000035;
+    const labelBaseScale = 0.000040;
     label.scale.x = canvas.width * labelBaseScale;
     label.scale.y = canvas.height * labelBaseScale;
 
@@ -140,7 +140,7 @@ window.addEventListener('resize', () => {
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 0
+camera.position.x = 0.5
 camera.position.y = 0.5
 camera.position.z = 0.5
 scene.add(camera)

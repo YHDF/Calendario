@@ -22,7 +22,7 @@ class Connect extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount(){
-        if(this.props.authenticated){
+        if(document.cookie.length !== 0){
             this.setState({ redirect: "/admin/companieslist" });
         }
     }
