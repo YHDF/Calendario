@@ -22,7 +22,8 @@ class Connect extends React.Component {
         this.clickaway = this.clickaway.bind(this);
     }
     componentDidMount(){
-        if(this.props.authenticated){
+
+        if(this.props.adminAuthenticated){
             this.setState({ redirect: "/admin/companieslist" });
         }
     }
@@ -60,11 +61,11 @@ class Connect extends React.Component {
                 headers: headers
             })
                 .then((response) => {
-                    this.props.setSessionId(response.data.session_id)
+                    this.props.setAdminSessionId(response.data.session_id)
                     if (response.data.user) {
                         this.setState({ isfound: response.data.user })
                     } else if (response.data.hash) {
-                        this.props.getAuthSatus();
+                        this.props.getAdminAuthStatus();
                         this.setState({ redirect: "/admin/companieslist"});
                     } else {
                         this.setState({ isCorrect: 'Password is wrong' });

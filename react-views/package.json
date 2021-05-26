@@ -2,6 +2,7 @@
   "name": "react-views",
   "version": "0.1.0",
   "private": true,
+  "proxy" : "http://localhost:5000",
   "dependencies": {
     "@fullcalendar/core": "^5.7.0",
     "@fullcalendar/daygrid": "^5.7.0",
@@ -50,4 +51,6 @@
       "last 1 safari version"
     ]
   }
+
+
 }

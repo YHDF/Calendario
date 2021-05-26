@@ -18,8 +18,9 @@ class CompaniesList extends React.Component {
         this.state = { companyInformations: [], redirect: null }
     }
     componentDidMount() {
-        this.props.getAuthSatus();
-       if (!this.props.authenticated) {
+        this.props.getAdminAuthStatus();
+
+        if (!this.props.adminAuthenticated) {
             this.setState({ redirect: "/auth/Connect" });
         } else {
             const headers = {

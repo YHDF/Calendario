@@ -20,7 +20,7 @@ import AlertBox from '../components/AlertBox';
 let host = 'http://localhost:5000';
 
 let tel = []
-export default class CompanyCalendar extends React.Component {
+export default class AdminCalendar extends React.Component {
 
 
     constructor(props) {
@@ -36,8 +36,10 @@ export default class CompanyCalendar extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getAuthSatus();
-        if (!this.props.authenticated) {
+        this.props.getAdminAuthStatus();
+        console.log('Calendar' + document.cookie)
+
+        if (!this.props.adminAuthenticated) {
             this.setState({ redirect: "/auth/Connect" });
         } else if (this.props.location.state === undefined) {
             this.setState({ redirect: "/admin/companieslist" });

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -17,13 +17,13 @@ export default class Join extends React.Component {
         this.input1 = this.input1.bind(this);
         this.input2 = this.input2.bind(this)
         this.state = initialState;
-        this.state = { user: { email: '', password: '' , confimpassword: ''}, redirect: null, isfound: '', isCorrect: '', isIdenticale: ''}
+        this.state = { user: { email: '', password: '', confimpassword: '' }, redirect: null, isfound: '', isCorrect: '', isIdenticale: '' }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.clickaway = this.clickaway.bind(this);
         this.input3 = this.input3.bind(this)
     }
-    componentDidMount(){
+    componentDidMount() {
 
     }
 
@@ -44,17 +44,17 @@ export default class Join extends React.Component {
                 isCorrect: 'Password Required'
             })
 
-        }  
-        if(this.state.user.confimpassword === ''){
+        }
+        if (this.state.user.confimpassword === '') {
             this.setState({
                 isIdenticale: 'field Required'
             })
-        }  
-        if(this.state.user.confimpassword !== this.state.user.password){
+        }
+        if (this.state.user.confimpassword !== this.state.user.password) {
             this.setState({
                 isIdenticale: 'This field should be identical to password'
             })
-        }else {
+        } else {
             const headers = {
                 'Access-Control-Allow-Origin': '*'
             };
@@ -70,11 +70,16 @@ export default class Join extends React.Component {
                 headers: headers
             })
                 .then((response) => {
-                    if(response.data.validation){
-                        this.setState({ isIdenticale: response.data.validation })  
-                    }else{
-                        console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-                        this.setState({ redirect: "/admin/registercompany" });
+                    if (response.data.validation) {
+                        this.setState({ isIdenticale: response.data.validation })
+                    } else {
+                        this.props.setClientSessionId(response.data.session_id)
+                        this.setState({
+                            redirect: "/client/registercompany",
+                            user : {
+                                email : response.data.email
+                            }
+                        });
 
                     }
                     /*this.props.setSessionId(response.data.session_id)
@@ -102,34 +107,34 @@ export default class Join extends React.Component {
                 user: {
                     email: event.target.value,
                     password: this.state.user.password,
-                    confimpassword : this.state.user.confimpassword
+                    confimpassword: this.state.user.confimpassword
                 }
             })
-        } else if(event.target.className === "input2"){
+        } else if (event.target.className === "input2") {
             this.setState({
                 user: {
                     email: this.state.user.email,
                     password: event.target.value,
-                    confimpassword : this.state.user.confimpassword
+                    confimpassword: this.state.user.confimpassword
                 }
             })
-        }else{
+        } else {
             this.setState({
                 user: {
                     email: this.state.user.email,
                     password: this.state.user.password,
-                    confimpassword : event.target.value 
+                    confimpassword: event.target.value
                 }
             })
         }
 
     }
 
-    clickaway(e){
-        if(this.state.user.email === ''){
+    clickaway(e) {
+        if (this.state.user.email === '') {
             document.querySelector('.label1').innerHTML = "Email";
-            
-        }if(this.state.user.password === ''){
+
+        } if (this.state.user.password === '') {
             document.querySelector('.label2').innerHTML = "Mot de passe";
         }
     }
@@ -183,11 +188,15 @@ export default class Join extends React.Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
+            //return <Redirect to={this.state.redirect} />
+            return (<Redirect to={{
+                pathname: this.state.redirect,
+                state: { email: this.state.user.email }
+            }} ></Redirect>)
         }
         return (
             <div>
-                <div className="auth_menu"  onClick={this.clickaway}>
+                <div className="auth_menu" onClick={this.clickaway}>
                     <div className="back">
                         <Link to="/" style={{ textDecoration: "none" }}>
                             <svg
@@ -213,10 +222,10 @@ export default class Join extends React.Component {
                                 <input onKeyPress={this.input1} value={this.state.user.email} onChange={this.handleChange} className="input1" name="email" type="email" />
                             </div>
                             <div className="error-message">{this.state.isfound}</div>
-                            
+
                             <div className="auth_input">
                                 <label className="label2" htmlFor="password">Mot de passe</label>
-                                <input  onKeyPress={this.input2} value={this.state.user.password} onChange={this.handleChange} className="input2" name="password" type="password" />
+                                <input onKeyPress={this.input2} value={this.state.user.password} onChange={this.handleChange} className="input2" name="password" type="password" />
                             </div>
                             <div className="error-message">{this.state.isCorrect}</div>
                             <div className="auth_input">

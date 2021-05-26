@@ -10,10 +10,13 @@ import Navbar from './javascripts/components/Navbar'
 import Home from './javascripts/pages/Home'
 import Connect from './javascripts/pages/Connect'
 import CompaniesList from './javascripts/pages/CompaniesList'
-import Calendar from './javascripts/pages/Calendar'
+import AdminCalendar from './javascripts/pages/AdminCalendar'
 import Login from './javascripts/pages/Login'
 import Join from './javascripts/pages/Join'
 import CompanyRegistration from './javascripts/pages/CompanyRegistration'
+import ClientCalendar from './javascripts/pages/ClientCalendar'
+
+
 
 
 
@@ -21,24 +24,36 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { authenticated: document.cookie.length !== 0 };
-        this.getAuthSatus = this.getAuthSatus.bind(this);
-        this.setSessionId = this.setSessionId.bind(this);
-        this.getSessionId = this.getSessionId.bind(this);
+        this.state = {
+            adminAuthenticated: document.cookie.split('; ').find(row => row.startsWith('session_id=')) !== undefined,
+            clientAuthenticated: document.cookie.split('; ').find(row => row.startsWith('client_session_id=')) !== undefined,
+        };
+        this.getAdminAuthStatus = this.getAdminAuthStatus.bind(this);
+        this.setAdminSessionId = this.setAdminSessionId.bind(this);
+        this.getClientAuthStatus = this.getClientAuthStatus.bind(this);
+        this.setClientSessionId = this.setClientSessionId.bind(this);
+
     }
     componentDidMount() {
-    }
+        console.log(document.cookie);
 
-    getSessionId() {
-        return document.cookie
     }
-    setSessionId(session_id) {
+    setAdminSessionId(session_id) {
         document.cookie = `session_id=${session_id}`;
     }
+    setClientSessionId(session_id) {
+        document.cookie = `client_session_id=${session_id}`;
+    }
+    getAdminAuthStatus() {
+        this.setState({ adminAuthenticated: document.cookie.split('; ').find(row => row.startsWith('session_id=')) !== undefined })
+    }
+    async getClientAuthStatus() {
+        this.setState({ clientAuthenticated: document.cookie.split('; ').find(row => row.startsWith('client_session_id=')) !== undefined },
+            () => {
+                console.log(this.state.clientAuthenticated, 'clientAuthenticated');
+            })
 
-    getAuthSatus() {
-        this.setState({ authenticated: document.cookie.split('; ').find(row => row.startsWith('session_id=')) !== undefined })
-        console.log(document.cookie)
+
 
     }
 
@@ -48,28 +63,26 @@ class App extends React.Component {
         return (
             <Router>
                 <Switch>
-                    <Route path="/admin/registercompany">
-                    <CompanyRegistration authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} />
-                    </Route>
-                    <Route path="/admin/calendar" render={(props) => <Calendar {...props} authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} />} />
+
+                    <Route path="/client/calendar" render={(props) => <ClientCalendar {...props} clientAuthenticated={this.state.clientAuthenticated} getClientAuthStatus={this.getClientAuthStatus} />} />
+                    <Route path="/client/registercompany" render={(props) => <CompanyRegistration {...props} clientAuthenticated={this.state.clientAuthenticated} getClientAuthStatus={this.getClientAuthStatus} />} />
+                    <Route path="/admin/calendar" render={(props) => <AdminCalendar {...props} adminAuthenticated={this.state.adminAuthenticated} getAdminAuthStatus={this.getAdminAuthStatus} />} />
                     <Route path="/auth/login">
-                        <Navbar />
-                        <Login authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} setSessionId={this.setSessionId} />
+                        <Login clientAuthenticated={this.state.clientAuthenticated} getClientAuthStatus={this.getClientAuthStatus} setClientSessionId={this.setClientSessionId} />
                     </Route>
+
                     <Route path="/auth/join">
-                        <Navbar />
-                        <Join authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} setSessionId={this.setSessionId} />
+                        <Join clientAuthenticated={this.state.clientAuthenticated} getClientAuthStatus={this.getClientAuthStatus} setClientSessionId={this.setClientSessionId} />
                     </Route>
                     <Route path="/auth/connect">
-                        <Navbar />
-                        <Connect authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} setSessionId={this.setSessionId} />
+                        <Connect adminAuthenticated={this.state.adminAuthenticated} getAdminAuthStatus={this.getAdminAuthStatus} setAdminSessionId={this.setAdminSessionId} />
                     </Route>
                     <Route path="/admin/companieslist">
-                        <Navbar />
-                        <CompaniesList authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} />
+                        <Navbar adminAuthenticated={this.state.adminAuthenticated} getAdminAuthStatus={this.getAdminAuthStatus} />
+                        <CompaniesList adminAuthenticated={this.state.adminAuthenticated} getAdminAuthStatus={this.getAdminAuthStatus} />
                     </Route>
                     <Route path="/">
-                        <Navbar />
+                        <Navbar adminAuthenticated={this.state.adminAuthenticated} getAdminAuthStatus={this.getAdminAuthStatus} />
                         <Home />
                     </Route>
 
@@ -84,11 +97,11 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/">
                             <Navbar />
-                            <Home authenticated={this.state.authenticated} />
+                            <Home adminAuthenticated={this.state.adminAuthenticated} />
                         </Route>
                         <Route path="/auth/connect">
                             <Navbar />
-                            <Connect authenticated={this.state.authenticated} />
+                            <Connect adminAuthenticated={this.state.adminAuthenticated} />
                         </Route>
                     </Switch>
                 </Router>
@@ -102,11 +115,11 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/auth/connect">
                             <Navbar />
-                            <Connect authenticated={this.state.authenticated} />
+                            <Connect adminAuthenticated={this.state.adminAuthenticated} />
                         </Route>
                         <Route path="/">
                             <Navbar />
-                            <Home authenticated={this.state.authenticated} />
+                            <Home adminAuthenticated={this.state.adminAuthenticated} />
                         </Route>
                     </Switch>
                 </Router>

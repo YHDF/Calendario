@@ -20,6 +20,9 @@ let options = {
     database: 'Calendario',
     clearExpired: true,
     checkExpirationInterval: 10000,
+    schema : {
+        tableName : 'AdminSession'
+    }
 };
 let sessionStore = new MySQLStore(options);
 

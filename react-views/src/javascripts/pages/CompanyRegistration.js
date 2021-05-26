@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 // Import React FilePond
 import { FilePond } from 'react-filepond';
@@ -9,8 +9,13 @@ import 'filepond/dist/filepond.min.css';
 
 import '../../style.css';
 
-
-
+let companyInfo = {
+    idCompany : '',
+    companyName : '',
+    companyLogo : '',
+    RegistredDefaultAddress : ''
+};
+let image;
 
 export default class CompanyRegistration extends React.Component {
     constructor(props) {
@@ -22,9 +27,10 @@ export default class CompanyRegistration extends React.Component {
         //this.state = initialState;
         this.state = {
             company: {
+                idCompany: '',
                 name: '',
                 address: '',
-                image : ''
+                image: ''
             }, redirect: null, isfound: '', isCorrect: '',
             files: []
         };
@@ -34,7 +40,6 @@ export default class CompanyRegistration extends React.Component {
 
     }
     componentDidMount() {
-
     }
 
 
@@ -59,9 +64,11 @@ export default class CompanyRegistration extends React.Component {
             };
 
             const company = {
+
                 name: this.state.company.name,
                 address: this.state.company.address,
-                image : this.state.company.image
+                image: image,
+                email : this.props.location.state.email
             }
             axios({
                 method: 'post',
@@ -69,18 +76,30 @@ export default class CompanyRegistration extends React.Component {
                 data: company,
                 headers: headers
             })
-                /*.then((response) => {
-                    if (response.data.validation) {
-                        this.setState({ isIdenticale: response.data.validation })
-                    } else {
-                        this.setState({ redirect: "/admin/registercompany" });
-
-                    }
+                .then((response) => {
+                    Object.assign(companyInfo, response.data.companies)
+                    document.cookie = `idCompany=${response.data.companies.idCompany}`;
+                    console.log('document.cookie : ' + document.cookie)
+                    this.props.getClientAuthStatus()
+                    this.setState({
+                        redirect : '/client/calendar',
+                    })
 
                 })
-                .catch(function (error) {
-                    console.error(error);
-                });*/
+
+
+            /*.then((response) => {
+                if (response.data.validation) {
+                    this.setState({ isIdenticale: response.data.validation })
+                } else {
+                    this.setState({ redirect: "/admin/registercompany" });
+
+                }
+
+            })
+            .catch(function (error) {
+                console.error(error);
+            });*/
         }
 
 
@@ -149,7 +168,12 @@ export default class CompanyRegistration extends React.Component {
 
 
     render() {
-        console.log(this.state.files)
+        if (this.state.redirect !== null) {
+            return (<Redirect to={{
+                pathname: this.state.redirect,
+                state: { CompanyInfo: companyInfo}
+            }} ></Redirect>)
+        }
         return (
             <div>
                 <div className="auth_menu" onClick={this.clickaway}>
@@ -191,13 +215,13 @@ export default class CompanyRegistration extends React.Component {
                                     allowMultiple={false}
                                     server={
                                         {
-                                            url : "http://localhost:5000",
-                                            process : {
-                                                url : '/client/saveimage',
-                                                onload: (response) => {this.state.company.image = response}//{console.log(response)},
+                                            url: "http://localhost:5000",
+                                            process: {
+                                                url: '/client/saveimage',
+                                                onload: (response) => { image = response }//this.state.company.image = response }//{console.log(response)},
                                             }
 
-                                         }
+                                        }
                                     } //"http://localhost:5000/client/saveimage"
                                     oninit={() => this.handleInit()}
                                     onupdatefiles={(fileItems) => {

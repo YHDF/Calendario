@@ -1,11 +1,18 @@
 import React from 'react';
 import {
-
     Link,
-
 } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
+
+    function handleClick(e) {
+        if (props.adminAuthenticated) {
+            document.cookie = 'session_id' +
+                '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+            props.getAdminAuthSatus();
+        }
+    }
+
     function slide(e) {
         let list = document.querySelector('.list');
         list.classList.contains('menu-active') ? list.classList.remove('menu-active') : list.classList.toggle('menu-active');
@@ -21,7 +28,7 @@ const Navbar = () => {
             </div>
             <div className="list">
                 <Link to="/">Home</Link>
-                <Link to="/auth/connect">Admin</Link>
+                <Link to={props.adminAuthenticated ? '/' : '/auth/connect'} onClick={handleClick}>{props.adminAuthenticated ? 'Logout' : 'Admin'}</Link>
                 <Link to="/">About</Link>
             </div>
             <div className="connect"><Link to="/auth/login">Login</Link></div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -17,14 +17,25 @@ export default class Login extends React.Component {
         this.input1 = this.input1.bind(this);
         this.input2 = this.input2.bind(this);
         this.state = initialState;
-        this.state = { user: { email: '', password: '' }, redirect: null, isfound: '', isCorrect: ''}
+        this.state = {
+            user: { email: '', password: '' },
+            company: {
+                idCompany: '',
+                name: '',
+                address: '',
+                image: ''
+            },
+            redirect: null,
+            isfound: '',
+            isCorrect: ''
+        }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.clickaway = this.clickaway.bind(this);
     }
-    componentDidMount(){
-        if(document.cookie.length !== 0){
-            this.setState({ redirect: "/admin/companieslist" });
+    componentDidMount() {
+        if (this.props.clientAuthenticated) {
+            this.setState({ redirect: "/client/calendar" });
         }
     }
 
@@ -61,12 +72,13 @@ export default class Login extends React.Component {
                 headers: headers
             })
                 .then((response) => {
-                    this.props.setSessionId(response.data.session_id)
+                    console.log(response.data.companyInfo)
+                    this.props.setClientSessionId(response.data.session_id)
                     if (response.data.user) {
                         this.setState({ isfound: response.data.user })
                     } else if (response.data.hash) {
-                        this.props.getAuthSatus();
-                        this.setState({ redirect: "/admin/companieslist"});
+                        this.props.getClientAuthStatus();
+                        this.setState({ redirect: "/client/calendar" });
                     } else {
                         this.setState({ isCorrect: 'Password is wrong' });
                     }
@@ -99,11 +111,11 @@ export default class Login extends React.Component {
 
     }
 
-    clickaway(e){
-        if(this.state.user.email === ''){
+    clickaway(e) {
+        if (this.state.user.email === '') {
             document.querySelector('.label1').innerHTML = "Email";
-            
-        }if(this.state.user.password === ''){
+
+        } if (this.state.user.password === '') {
             document.querySelector('.label2').innerHTML = "Mot de Passe";
         }
     }
@@ -132,9 +144,13 @@ export default class Login extends React.Component {
 
     }
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+
+        }
         return (
             <div>
-                <div className="auth_menu"  onClick={this.clickaway}>
+                <div className="auth_menu" onClick={this.clickaway}>
                     <div className="back">
                         <Link to="/" style={{ textDecoration: "none" }}>
                             <svg
@@ -162,7 +178,7 @@ export default class Login extends React.Component {
                             <div className="error-message">{this.state.isfound}</div>
                             <div className="auth_input">
                                 <label className="label2" htmlFor="password">Mot de Passe</label>
-                                <input  onKeyPress={this.input2} value={this.state.user.password} onChange={this.handleChange} className="input2" name="password" type="password" />
+                                <input onKeyPress={this.input2} value={this.state.user.password} onChange={this.handleChange} className="input2" name="password" type="password" />
                             </div>
                             <div className="error-message">{this.state.isCorrect}</div>
                             <div>
