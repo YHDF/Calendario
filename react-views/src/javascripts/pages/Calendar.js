@@ -6,15 +6,18 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-
 import '../../css/calendar.css';
 import '../../css/companiesList.css';
-
 import AlertBox from '../components/AlertBox';
+
+
+let host = 'http://localhost:5000';
 
 let tel = []
 export default class CompanyCalendar extends React.Component {
@@ -27,7 +30,7 @@ export default class CompanyCalendar extends React.Component {
             calendarEvents: [],
             redirect: null,
             alert_visibility: false,
-            event_id : null
+            event_id: null
         }
         this.changeVisibility = this.changeVisibility.bind(this)
     }
@@ -46,7 +49,7 @@ export default class CompanyCalendar extends React.Component {
 
             axios({
                 method: 'get',
-                url: `http://localhost:5000/admin/calendarInfo?idCompany=${idCompany}`,
+                url: `${host}/admin/calendarInfo?idCompany=${idCompany}`,
                 headers: headers,
             })
                 .then((response) => {
@@ -69,14 +72,46 @@ export default class CompanyCalendar extends React.Component {
         }
     }
 
-    changeVisibility(){
-        this.setState({alert_visibility : false});
+    changeVisibility() {
+        this.setState({ alert_visibility: false });
         this.componentDidMount();
     }
 
+    handleDateSelect = (selectInfo) => {
+        let title = prompt('Enter Event :')
+        let calendarApi = selectInfo.view.calendar
+
+        calendarApi.unselect() // clear date selection
+        if (title) {
+            /*calendarApi.addEvent({
+                title,
+                start: selectInfo.startStr,
+                end: selectInfo.endStr,
+                allDay: selectInfo.allDay
+            })*/
+            const headers = {
+                'Access-Control-Allow-Origin': '*'
+            };
+
+            const event = {
+                title: title,
+                date: selectInfo.startStr,
+                idCompany : this.props.location.state.CompanyInfo.idCompany
+            }
+            axios({
+                method: 'post',
+                url: `${host}/admin/addevent`,
+                data: event,
+                headers: headers
+            }).then((response) => {
+                
+            })
+        }
+        this.componentDidMount()
+    }
+
     handleEventClick = (clickInfo) => {
-        console.log(clickInfo.event.id)
-        this.setState({alert_visibility : true, event_id : clickInfo.event.id})
+        this.setState({ alert_visibility: true, event_id: clickInfo.event.id })
     }
 
     render() {
@@ -125,7 +160,7 @@ export default class CompanyCalendar extends React.Component {
                     </div>
                     <div className="calendar">
                         <FullCalendar
-                            plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+                            plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
                             initialView="dayGridMonth"
                             events={this.state.calendarEvents}
                             headerToolbar={{
@@ -138,13 +173,15 @@ export default class CompanyCalendar extends React.Component {
                             selectMirror={true}
                             dayMaxEvents={true}
                             weekends={this.state.weekendsVisible}
+                            select={this.handleDateSelect}
                             eventContent={renderEventContent} // custom render function
                             eventClick={this.handleEventClick}
+
                         />
                     </div>
                     {
-                        this.state.alert_visibility ? 
-                        <AlertBox changeVisibility={this.changeVisibility} eventId={this.state.event_id} /> : <div></div>
+                        this.state.alert_visibility ?
+                            <AlertBox changeVisibility={this.changeVisibility} eventId={this.state.event_id} /> : <div></div>
                     }
                 </div>
             )

@@ -35,6 +35,7 @@ body {
     overflow: hidden;
 }
 
+
 .webgl {
     position: fixed;
     top: 0;
@@ -66,16 +67,17 @@ body {
     text-align: center;
 }
 
-.separator {
-    height: 0.5px;
+.mainheader .separator {
+    height: 1px;
     width: 100%;
     background-color: white;
 }
 
+
 .connect {
     position: absolute;
     top: 10%;
-    right: 5%;
+    right: 8%;
     width: 5%;
     height: 15%;
     color: white;
@@ -88,7 +90,7 @@ body {
     position: absolute;
     top: 10%;
     right: 0%;
-    width: 5%;
+    width: 8%;
     height: 15%;
     color: white;
     font-family: monserrat;
@@ -156,8 +158,56 @@ body {
 
 .link a:hover {
     cursor: pointer;
+    color: white;
 }
 
+/*--------------------------------Scroller--------------------------------------------------*/
+
+#infomenu {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+#infomenu .infosection {
+    position: absolute;
+    margin-top: 35%;
+    height: 30%;
+    width: 100%;
+}
+
+.infosection div {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 2%;
+    font-family: monserrat;
+    color: white;
+    font-size: 1.2vw;
+    text-align: center;
+}
+.infosection .scroller {
+    margin-left: 95%;
+    height: 50px;
+    width: 50px;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+
+.scroller svg {
+    margin: 11px;
+}
+
+.scroller:hover {
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.scroller:hover svg {
+    fill: black;
+}
+/*----------------------------------------------------------------------------------*/
 
 
 .mainheader svg:hover {
@@ -245,7 +295,7 @@ body {
 .auth_input {
     margin-top: 10%;
     width: 100%;
-    height: 15%;
+    height: 10%;
     animation-duration: 1s;
 }
 
@@ -257,11 +307,11 @@ body {
     border-radius: 10px;
     outline: none;
     margin: 0;
-    z-index: 2;
     background-color: transparent;
     font-family: monserrat-medium;
     color: black;
     font-size: 1.4vw;
+    z-index: 5;
 }
 
 .auth_input input:focus {
@@ -325,4 +375,20 @@ label {
     font-family: monserrat-medium;
     color: black;
     font-size: 1.8vw;
+}
+
+.image_holder{
+    width: 80%;
+    height: 15%;
+    
+}
+
+.filepond--panel .filepond--panel-root{
+    background-color: black;
+    height: 40%;
+}
+
+
+.image_holder label{
+    color : white;
 }

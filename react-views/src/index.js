@@ -6,11 +6,28 @@ import App from '../src/App'
 
 
 /*let deletecookie = () => {
-  console.log('Deleting')
-  document.cookie = 'session_id' +
-    '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+  console.log('deleting')
+  if(document.cookie === '')
+    return ;
+  else if(document.cookie.split('; ').find(row => row.startsWith('deleted=')) === undefined)
+      document.cookie = 'session_id' +
+       '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+      document.cookie = 'deleted=true';
 }
 deletecookie();*/
+
+let deletecookie = (function() {
+  var executed = false;
+  return function() {
+      if (!executed) {
+          executed = true;
+          document.cookie = 'session_id' +
+       '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+      }
+  };
+})();
+
+deletecookie();
 tick();
 
 ReactDOM.render(

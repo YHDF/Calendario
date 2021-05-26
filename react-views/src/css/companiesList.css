@@ -112,3 +112,8 @@
 .calendar_link a{
   color : inherit
 }
+
+.calendar_link a:hover{
+  color : white
+}
+

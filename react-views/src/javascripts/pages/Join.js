@@ -1,30 +1,30 @@
 import React from 'react';
-import '../../style.css';
+import {Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
-import { Redirect, Link } from "react-router-dom";
 
 
+import '../../style.css';
 
 
 const initialState = {
 };
-class Connect extends React.Component {
 
+export default class Join extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = { isToggleOn: true };
         this.input1 = this.input1.bind(this);
-        this.input2 = this.input2.bind(this);
+        this.input2 = this.input2.bind(this)
         this.state = initialState;
-        this.state = { user: { email: '', password: '' }, redirect: null, isfound: '', isCorrect: ''}
+        this.state = { user: { email: '', password: '' , confimpassword: ''}, redirect: null, isfound: '', isCorrect: '', isIdenticale: ''}
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.clickaway = this.clickaway.bind(this);
+        this.input3 = this.input3.bind(this)
     }
     componentDidMount(){
-        if(this.props.authenticated){
-            this.setState({ redirect: "/admin/companieslist" });
-        }
+
     }
 
     reset() {
@@ -44,7 +44,17 @@ class Connect extends React.Component {
                 isCorrect: 'Password Required'
             })
 
-        } else {
+        }  
+        if(this.state.user.confimpassword === ''){
+            this.setState({
+                isIdenticale: 'field Required'
+            })
+        }  
+        if(this.state.user.confimpassword !== this.state.user.password){
+            this.setState({
+                isIdenticale: 'This field should be identical to password'
+            })
+        }else {
             const headers = {
                 'Access-Control-Allow-Origin': '*'
             };
@@ -55,12 +65,19 @@ class Connect extends React.Component {
             }
             axios({
                 method: 'post',
-                url: 'http://localhost:5000/admin/connect',
+                url: 'http://localhost:5000/client/join',
                 data: user,
                 headers: headers
             })
                 .then((response) => {
-                    this.props.setSessionId(response.data.session_id)
+                    if(response.data.validation){
+                        this.setState({ isIdenticale: response.data.validation })  
+                    }else{
+                        console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+                        this.setState({ redirect: "/admin/registercompany" });
+
+                    }
+                    /*this.props.setSessionId(response.data.session_id)
                     if (response.data.user) {
                         this.setState({ isfound: response.data.user })
                     } else if (response.data.hash) {
@@ -68,7 +85,7 @@ class Connect extends React.Component {
                         this.setState({ redirect: "/admin/companieslist"});
                     } else {
                         this.setState({ isCorrect: 'Password is wrong' });
-                    }
+                    }*/
                 })
                 .catch(function (error) {
                     console.error(error);
@@ -84,14 +101,24 @@ class Connect extends React.Component {
             this.setState({
                 user: {
                     email: event.target.value,
-                    password: this.state.user.password
+                    password: this.state.user.password,
+                    confimpassword : this.state.user.confimpassword
                 }
             })
-        } else {
+        } else if(event.target.className === "input2"){
             this.setState({
                 user: {
                     email: this.state.user.email,
-                    password: event.target.value
+                    password: event.target.value,
+                    confimpassword : this.state.user.confimpassword
+                }
+            })
+        }else{
+            this.setState({
+                user: {
+                    email: this.state.user.email,
+                    password: this.state.user.password,
+                    confimpassword : event.target.value 
                 }
             })
         }
@@ -103,13 +130,16 @@ class Connect extends React.Component {
             document.querySelector('.label1').innerHTML = "Email";
             
         }if(this.state.user.password === ''){
-            document.querySelector('.label2').innerHTML = "Mot de Passe";
+            document.querySelector('.label2').innerHTML = "Mot de passe";
         }
     }
 
     input1(e) {
         if (document.querySelector('.label2').nodeValue === null && this.state.user.password === '') {
             document.querySelector('.label2').innerHTML = "Mot de Passe";
+        }
+        if (document.querySelector('.label3').nodeValue === null && this.state.user.confimpassword === '') {
+            document.querySelector('.label3').innerHTML = "Confirmer Mot de Passe";
         }
 
         document.querySelector('.label1').innerHTML = "";
@@ -123,21 +153,38 @@ class Connect extends React.Component {
         if (document.querySelector('.label1').nodeValue === null && this.state.user.email === '') {
             document.querySelector('.label1').innerHTML = "Email";
         }
+        if (document.querySelector('.label3').nodeValue === null && this.state.user.confimpassword === '') {
+            document.querySelector('.label3').innerHTML = "Confirmer Mot de Passe";
+        }
         document.querySelector('.label2').innerHTML = "";
         this.setState({
             isfound: '',
-            isCorrect: ''
+            isCorrect: '',
+            isIdenticale: ''
         })
 
     }
 
+    input3(e) {
+        if (document.querySelector('.label1').nodeValue === null && this.state.user.email === '') {
+            document.querySelector('.label1').innerHTML = "Email";
+        }
+        if (document.querySelector('.label2').nodeValue === null && this.state.user.password === '') {
+            document.querySelector('.label2').innerHTML = "Mot de Passe";
+        }
+        document.querySelector('.label3').innerHTML = "";
+        this.setState({
+            isfound: '',
+            isCorrect: '',
+            isIdenticale: ''
+        })
+
+    }
 
     render() {
-
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
-
         return (
             <div>
                 <div className="auth_menu"  onClick={this.clickaway}>
@@ -166,11 +213,17 @@ class Connect extends React.Component {
                                 <input onKeyPress={this.input1} value={this.state.user.email} onChange={this.handleChange} className="input1" name="email" type="email" />
                             </div>
                             <div className="error-message">{this.state.isfound}</div>
+                            
                             <div className="auth_input">
-                                <label className="label2" htmlFor="password">Mot de Passe</label>
+                                <label className="label2" htmlFor="password">Mot de passe</label>
                                 <input  onKeyPress={this.input2} value={this.state.user.password} onChange={this.handleChange} className="input2" name="password" type="password" />
                             </div>
                             <div className="error-message">{this.state.isCorrect}</div>
+                            <div className="auth_input">
+                                <label className="label3" htmlFor="confirmpassword">Confirmer mot de passe</label>
+                                <input onKeyPress={this.input3} value={this.state.user.confimpassword} onChange={this.handleChange} className="input3" name="confirmpassword" type="password" />
+                            </div>
+                            <div className="error-message">{this.state.isIdenticale}</div>
                             <div>
                                 <Link to="">Mot de passe oublié ?</Link>
                             </div>
@@ -180,10 +233,6 @@ class Connect extends React.Component {
                     </div>
                 </div>
             </div>
-        );
-
-
+        )
     }
 }
-
-export default Connect;

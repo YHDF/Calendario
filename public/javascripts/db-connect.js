@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize('mariadb://localhost:3306/Calendario?user=root&password=yh')
 
+
 async function connect(){
     try {
         await sequelize.authenticate();

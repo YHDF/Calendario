@@ -118,9 +118,24 @@ router.delete('/deleteevent', async (req, res, next) => {
             idCalendars: idCompany
         }
     });
+});
 
 
+router.post('/addevent', async (req, res, next) => {
+    let idCompany = req.body.idCompany;
+    let title = req.body.title;
+    let date = req.body.date;
+    let calendar = await Calendar.init();
+    let calendars = await calendar.create({idCompany : idCompany, EventName : title, EventDate : date})
+    console.log(calendars.EventName);
+    res.end()
+    //res.send(events)
 
 });
+
+
+
+
+
 
 module.exports = router

@@ -4,10 +4,12 @@ import axios from 'axios'
 
 const AlertBox = (props) => {
     const [visibility, setVisibility] = useState(true)
+    
     //const [text, setText] = useState('Do you want to delete this event ? ')
 
 
-    function deleteItem() {
+
+    async function deleteItem() {
 
         const headers = {
             'Access-Control-Allow-Origin': '*'
@@ -19,7 +21,9 @@ const AlertBox = (props) => {
             url: `http://localhost:5000/admin/deleteevent?idCompany=${eventId}`,
             headers: headers,
         }).then((response) => {
+            setVisibility(false)
         })
+        
     }
 
     if (visibility) {
@@ -34,9 +38,7 @@ const AlertBox = (props) => {
                         <hr />
                         <div className="d-flex justify-content-end">
                             <Button onClick={() => {
-                                deleteItem();
-                                props.changeVisibility();
-                                setVisibility(false);
+                                deleteItem().then(() => props.changeVisibility())
                             }} variant="outline-dark">
                                 Apply
                             </Button>

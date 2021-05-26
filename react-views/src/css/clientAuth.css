@@ -1,0 +1,17 @@
+@font-face {
+  font-family: monserrat;
+  src: url("../static/Montserrat/Montserrat-ExtraLight.ttf");
+}
+
+@font-face {
+  font-family: monserrat-medium;
+  src: url("../static/Montserrat/Montserrat-Medium.ttf");
+}
+.auth_div {
+  position: absolute;
+  left: 25%;
+  top: 25%;
+  width: 50%;
+  height: auto;
+  background-color: white;
+}

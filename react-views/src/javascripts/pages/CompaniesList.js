@@ -19,8 +19,7 @@ class CompaniesList extends React.Component {
     }
     componentDidMount() {
         this.props.getAuthSatus();
-        if (!this.props.authenticated) {
-            console.log('this.props.authenticated')
+       if (!this.props.authenticated) {
             this.setState({ redirect: "/auth/Connect" });
         } else {
             const headers = {
@@ -57,7 +56,7 @@ class CompaniesList extends React.Component {
                         <div className='description'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A expedita repellat consequuntur voluptas quam sit magni placeat culpa. Earum laudantium fugit iure modi totam laborum beatae sed magni pariatur ullam!</div>
                         <div className='calendar_link'>
                             <Link to={{
-                                pathname: '/calendar',
+                                pathname: '/admin/calendar',
                                 state: { CompanyInfo: item }
                             }} >Visit Company Event Calendar</Link>
 

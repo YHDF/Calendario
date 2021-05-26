@@ -11,6 +11,9 @@ import Home from './javascripts/pages/Home'
 import Connect from './javascripts/pages/Connect'
 import CompaniesList from './javascripts/pages/CompaniesList'
 import Calendar from './javascripts/pages/Calendar'
+import Login from './javascripts/pages/Login'
+import Join from './javascripts/pages/Join'
+import CompanyRegistration from './javascripts/pages/CompanyRegistration'
 
 
 
@@ -26,15 +29,16 @@ class App extends React.Component {
     componentDidMount() {
     }
 
-    getSessionId(){
+    getSessionId() {
         return document.cookie
     }
-    setSessionId(session_id){
+    setSessionId(session_id) {
         document.cookie = `session_id=${session_id}`;
     }
 
     getAuthSatus() {
-        this.setState({ authenticated: document.cookie.length !== 0 })
+        this.setState({ authenticated: document.cookie.split('; ').find(row => row.startsWith('session_id=')) !== undefined })
+        console.log(document.cookie)
 
     }
 
@@ -44,14 +48,25 @@ class App extends React.Component {
         return (
             <Router>
                 <Switch>
-                    <Route path="/calendar" render={(props) => <Calendar {...props} authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus}/>} />
+                    <Route path="/admin/registercompany">
+                    <CompanyRegistration authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} />
+                    </Route>
+                    <Route path="/admin/calendar" render={(props) => <Calendar {...props} authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} />} />
+                    <Route path="/auth/login">
+                        <Navbar />
+                        <Login authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} setSessionId={this.setSessionId} />
+                    </Route>
+                    <Route path="/auth/join">
+                        <Navbar />
+                        <Join authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} setSessionId={this.setSessionId} />
+                    </Route>
                     <Route path="/auth/connect">
                         <Navbar />
-                        <Connect authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} setSessionId={this.setSessionId}/>
+                        <Connect authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} setSessionId={this.setSessionId} />
                     </Route>
                     <Route path="/admin/companieslist">
                         <Navbar />
-                        <CompaniesList authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus}/>
+                        <CompaniesList authenticated={this.state.authenticated} getAuthSatus={this.getAuthSatus} />
                     </Route>
                     <Route path="/">
                         <Navbar />

@@ -1,17 +1,18 @@
 import React from 'react';
-import '../../style.css';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
-import { Redirect, Link } from "react-router-dom";
 
 
+import '../../style.css';
 
 
 const initialState = {
 };
-class Connect extends React.Component {
 
+export default class Login extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = { isToggleOn: true };
         this.input1 = this.input1.bind(this);
         this.input2 = this.input2.bind(this);
@@ -22,7 +23,7 @@ class Connect extends React.Component {
         this.clickaway = this.clickaway.bind(this);
     }
     componentDidMount(){
-        if(this.props.authenticated){
+        if(document.cookie.length !== 0){
             this.setState({ redirect: "/admin/companieslist" });
         }
     }
@@ -55,7 +56,7 @@ class Connect extends React.Component {
             }
             axios({
                 method: 'post',
-                url: 'http://localhost:5000/admin/connect',
+                url: 'http://localhost:5000/client/login',
                 data: user,
                 headers: headers
             })
@@ -130,14 +131,7 @@ class Connect extends React.Component {
         })
 
     }
-
-
     render() {
-
-        if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
-        }
-
         return (
             <div>
                 <div className="auth_menu"  onClick={this.clickaway}>
@@ -180,10 +174,6 @@ class Connect extends React.Component {
                     </div>
                 </div>
             </div>
-        );
-
-
+        )
     }
 }
-
-export default Connect;

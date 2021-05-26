@@ -8,16 +8,16 @@ async function compareHash(req, res, next, db_hash){
     });
 }
 
-async function hash(req, res, next, db_hash){
-    var hash = await encrypt();  
+async function hash(req, res, next){
+    var hash = await encrypt(req.body.password);  
     return hash;
 }
 
 
 
-function encrypt(){
+function encrypt(password){
     return new Promise(async function(resolve, reject){
-        bcrypt.hash(req.body.password, saltRounds, async function (err, hash){
+        bcrypt.hash(password, saltRounds, async function (err, hash){
             resolve(hash);
         });      
     })
